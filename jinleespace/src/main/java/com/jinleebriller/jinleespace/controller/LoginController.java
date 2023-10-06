@@ -22,7 +22,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/singUp")
+    @GetMapping("/signUp")
     public String signUp(Model model) {
         model.addAttribute("userDto", new UserDto());
         return "signUp";
