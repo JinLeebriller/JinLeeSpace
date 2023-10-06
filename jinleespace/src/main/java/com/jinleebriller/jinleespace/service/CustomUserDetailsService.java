@@ -1,6 +1,7 @@
 package com.jinleebriller.jinleespace.service;
 
 import com.jinleebriller.jinleespace.dao.UserRepository;
+import com.jinleebriller.jinleespace.model.Role;
 import org.springframework.security.core.userdetails.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +38,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         com.jinleebriller.jinleespace.model.User user = userRepository.findOneById(id);
 
         if(user != null) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("USER")); // USER라는 역할을 넣어준다.
+            for(Role role : user.getRoles()) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())); // DB에 저장되어 있는 권한을 부여한다.
+                // grantedAuthorities.add(new SimpleGrantedAuthority("USER")); // USER라는 역할을 넣어준다.
+            }
             // User : 스프링 Security에서 제공하는 기본 사용자 모델(사용자의 ID, Password, 권한 등을 관리)
             return new User(user.getId(), user.getPassword(), grantedAuthorities);
         } else {
