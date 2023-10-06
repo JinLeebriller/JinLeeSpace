@@ -31,7 +31,7 @@
     <h3 sec:authorize="isAuthenticated()">Only Authenticated user can see this Text</h3>
 
     <div>
-        Authorities : <span sec:authentication="principal.aythorities"></span>
+        Authorities : <span sec:authentication="principal.authorities"></span>
     </div>
 
     <form th:action="@{/logout}" method="POST">

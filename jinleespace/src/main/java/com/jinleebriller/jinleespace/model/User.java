@@ -46,10 +46,11 @@ public class User {
     private Set<Role> roles;
 
     @Builder  // LOMBOK 어노테이션으로, 빌더 패턴을 사용하여 클래스의 인스턴스를 편리하게 생성
-    public User(String id, String password, String name) {
+    public User(String id, String password, String name, Set<Role> roles) {
         this.id = id;
         this.password = password;
         this.name = name;
+        this.roles = roles;
     }
 
 }
