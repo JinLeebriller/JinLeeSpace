@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -14,8 +16,8 @@ import javax.persistence.Entity;
 @Table(name = "TB_USER")
 public class User {
 
-    @id
-    @column(name = "id")
+    @Id
+    @Column(name = "id")
     private String id;
 
     @Column(name = "password")

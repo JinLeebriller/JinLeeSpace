@@ -41,7 +41,7 @@ public class SecurityConfig {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 주소창에 요청해도 포스트로 인식하여 로그아웃
                     .deleteCookies("JSESSIONID") // 로그아웃 시 JSESSIONID 제거
                     .invalidateHttpSession(true) // 로그아웃 시 세션 종료
-                    .clearAuthentication(true) // 로그아웃 시 권한 제거
+                    .clearAuthentication(true); // 로그아웃 시 권한 제거
         return http.build();
     }
 

@@ -1,5 +1,6 @@
 package com.jinleebriller.jinleespace.service;
 
+import com.jinleebriller.jinleespace.dao.UserRepository;
 import com.jinleebriller.jinleespace.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

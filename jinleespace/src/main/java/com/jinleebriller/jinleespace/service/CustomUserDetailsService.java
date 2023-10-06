@@ -1,5 +1,7 @@
 package com.jinleebriller.jinleespace.service;
 
+import com.jinleebriller.jinleespace.dao.UserRepository;
+import org.springframework.security.core.userdetails.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,11 +34,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         // GrantedAuthority : 사용자의 권한을 나타내는 인터페이스
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
-        // User : 스프링 Security에서 제공하는 기본 사용자 모델(사용자의 ID, Password, 권한 등을 관리)
         com.jinleebriller.jinleespace.model.User user = userRepository.findOneById(id);
 
         if(user != null) {
             grantedAuthorities.add(new SimpleGrantedAuthority("USER")); // USER라는 역할을 넣어준다.
+            // User : 스프링 Security에서 제공하는 기본 사용자 모델(사용자의 ID, Password, 권한 등을 관리)
             return new User(user.getId(), user.getPassword(), grantedAuthorities);
         } else {
             throw new UsernameNotFoundException("can not find User : " + id);
