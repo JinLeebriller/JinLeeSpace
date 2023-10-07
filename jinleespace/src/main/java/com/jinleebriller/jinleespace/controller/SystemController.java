@@ -13,6 +13,16 @@ public class SystemController {
         return "system";
     }
 
+    @GetMapping("/system/create")
+    public String create(HttpServletRequest request) {
+        return "systemCreate";
+    }
+
+    @GetMapping("/system/delete")
+    public String delete(HttpServletRequest request) {
+        return "systemDelete";
+    }
+
     @GetMapping("/accessDenied")
     public String accessDenied() {
         return "accessDenied";

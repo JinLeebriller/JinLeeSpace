@@ -44,6 +44,14 @@
         시스템 관리자 페이지로 이동 <a th:href="@{/system}">SYSTEM</a>
     </p>
 
+    <p>
+        시스템 관리자 등록 페이지로 이동 <a th:href="@{/system/create}">SYSTEM CREATE</a>
+    </p>
+
+    <p>
+        시스템 관리자 삭제 페이지로 이동 <a th:href="@{/system/delete}">SYSTEM DELETE</a>
+    </p>
+
     <form th:action="@{/logout}" method="POST">
         <input type="submit" value="Sign Out"/>
     </form>

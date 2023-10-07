@@ -1,5 +1,6 @@
 package com.jinleebriller.jinleespace.security;
 
+import com.jinleebriller.jinleespace.enums.UserAuthority;
 import com.jinleebriller.jinleespace.enums.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                     .antMatchers("/", "/home", "/signUp").permitAll() // 설정한 리소스의 접근을 인증절차 없이 허용
                     .antMatchers("/system").hasRole(UserRole.SYSTEM.toString())  // SYSTEM 역할을 가지고 있어야 접근 허용
+                    .antMatchers("/system/create").access("hasRole('" + UserRole.SYSTEM.toString() + "') and hasAuthority('" + UserAuthority.OP_CREATE_DATA.toString() + "')")  // SYSTEM 역할과 OP_CREATE_DATA 권한을 가지고 있어야 접근 허용
+                    .antMatchers("/system/delete").access("hasRole('" + UserRole.SYSTEM.toString() + "') and hasAuthority('" + UserAuthority.OP_DELETE_DATA.toString() + "')")  // SYSTEM 역할과 OP_DELETE_DATA 권한을 가지고 있어야 접근 허용
                     .anyRequest().authenticated()  // 그 외 모든 리소스 인증 필요
                     .and()
                 .formLogin()
