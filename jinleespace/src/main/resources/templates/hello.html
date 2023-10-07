@@ -21,6 +21,12 @@
     <!-- SYSTEM 역할을 가졌다면 이 글이 보인다. -->
     <h3 sec:authorize="hasRole(T(com.jinleebriller.jinleespace.enums.UserRole).SYSTEM)">Has SYSTEM Role</h3>
 
+    <!-- SYSTEM 역할과 OP_CREATE_DATA 권한을 가졌다면 이 글이 보인다. -->
+    <h3 sec:authorize="hasRole(T(com.jinleebriller.jinleespace.enums.UserRole).SYSTEM) and hasAuthority(T(com.jinleebriller.jinleespace.enums.UserAuthority).OP_CREATE_DATA)">Has OP_CREATE_DATA Authority</h3>
+
+    <!-- SYSTEM 역할과 OP_DELETE_DATA 권한을 가졌다면 이 글이 보인다. -->
+    <h3 sec:authorize="hasRole(T(com.jinleebriller.jinleespace.enums.UserRole).SYSTEM) and hasAuthority(T(com.jinleebriller.jinleespace.enums.UserAuthority).OP_DELETE_DATA)">Has OP_DELETE_DATA Authority</h3>
+
     <!-- USER 역할을 가졌다면 이 글이 보인다. -->
     <h3 sec:authorize="hasRole(T(com.jinleebriller.jinleespace.enums.UserRole).USER)">Has USER Role</h3>
 
@@ -33,6 +39,10 @@
     <div>
         Authorities : <span sec:authentication="principal.authorities"></span>
     </div>
+
+    <p>
+        시스템 관리자 페이지로 이동 <a th:href="@{/system}">SYSTEM</a>
+    </p>
 
     <form th:action="@{/logout}" method="POST">
         <input type="submit" value="Sign Out"/>

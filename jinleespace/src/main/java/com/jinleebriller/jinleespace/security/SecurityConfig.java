@@ -1,5 +1,6 @@
 package com.jinleebriller.jinleespace.security;
 
+import com.jinleebriller.jinleespace.enums.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                     .antMatchers("/", "/home", "/signUp").permitAll() // 설정한 리소스의 접근을 인증절차 없이 허용
+                    .antMatchers("/system").hasRole(UserRole.SYSTEM.toString())  // SYSTEM 역할을 가지고 있어야 접근 허용
                     .anyRequest().authenticated()  // 그 외 모든 리소스 인증 필요
                     .and()
                 .formLogin()
@@ -41,7 +43,10 @@ public class SecurityConfig {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 주소창에 요청해도 포스트로 인식하여 로그아웃
                     .deleteCookies("JSESSIONID") // 로그아웃 시 JSESSIONID 제거
                     .invalidateHttpSession(true) // 로그아웃 시 세션 종료
-                    .clearAuthentication(true); // 로그아웃 시 권한 제거
+                    .clearAuthentication(true) // 로그아웃 시 권한 제거
+                    .and()
+                .exceptionHandling()  // 시큐리티 구성에서 예외 처리 관련 설정을 할 때 사용
+                    .accessDeniedPage("/accessDenied");  // 접근 권한이 없는 사용자를 리다이렉트할 페이지 설정
         return http.build();
     }
 
