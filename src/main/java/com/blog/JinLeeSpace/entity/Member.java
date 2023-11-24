@@ -19,7 +19,7 @@ public class Member {
     @Id
     @Column(name = "member_idNumber")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String identificationNumber;
+    private Long identificationNumber;
 
     // 아이디
     /*
