@@ -33,6 +33,8 @@ public class Member {
     private String password;
 
     // 닉네임
+    // 동일한 값이 데이터베이스에 들어올 수 없도록 unique 속성 지정
+    @Column(unique = true)
     private String nickName;
 
     // 이메일

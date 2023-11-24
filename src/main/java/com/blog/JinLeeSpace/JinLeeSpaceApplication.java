@@ -14,9 +14,4 @@ public class JinLeeSpaceApplication {
 		SpringApplication.run(JinLeeSpaceApplication.class, args);
 	}
 
-	@GetMapping("/")
-	public String HelloWorld(){
-		return "main";
-	}
-
 }
