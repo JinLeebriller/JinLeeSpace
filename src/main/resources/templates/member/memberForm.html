@@ -3,6 +3,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+    <!-- 사용자 CSS 추가 -->
+    <th:block layout:fragment="css"></th:block>
+    <!-- 사용자 스크립트 추가 -->
+    <th:block layout:fragment="script">
+
+        <script th:inline="javascript">
+            $(document).ready(function(){
+                var errorMessage = [[${errorMessage}]];
+                if(errorMessage != Null) {
+                    alert(errorMessage);
+                }
+            });
+        </script>
+
+    </th:block>
+
     <div layout:fragment="content">
 
         <form action="/member/new" method="post" th:object="${memberFormDto}">
@@ -11,26 +27,31 @@
             <div>
                 아이디
                 <input type="text" th:field="*{id}" placeholder="아이디를 입력해주세요">
+                <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Incorrect data</p>
             </div>
 
             <div>
                 비밀번호
                 <input type="password" th:field="*{password}" placeholder="비밀번호를 입력해주세요">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect data</p>
             </div>
 
             <div>
                 닉네임
                 <input type="text" th:field="*{nickName}" placeholder="닉네임을 입력해주세요">
+                <p th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect data</p>
             </div>
 
             <div>
                 이메일
                 <input type="email" th:field="*{email}" placeholder="이메일을 입력해주세요">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect data</p>
             </div>
 
             <div>
                 주소
                 <input type="text" th:field="*{address}" placeholder="주소를 입력해주세요">
+                <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect data</p>
             </div>
 
             <button type="submit">오케이</button>
