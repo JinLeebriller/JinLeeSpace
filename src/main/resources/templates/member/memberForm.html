@@ -18,10 +18,10 @@
 
         <script th:inline="javascript">
             $(document).ready(function(){
-                var csrfToken = /*[[${_csrf.token}]]*/ '';
-                if(csrfToken.trim() !== ''){
-                    var errorMessage = /*[[${errorMessage}]]*/ '';
-                    if(errorMessage !== null && errorMessage.trim() !== ''){
+                var csrfToken = /*[[${_csrf.token}]]*/;
+                if(csrfToken !== null){
+                    var errorMessage = /*[[${errorMessage}]]*/;
+                    if(errorMessage !== null){
                         alert(errorMessage);
                     }
                 }
