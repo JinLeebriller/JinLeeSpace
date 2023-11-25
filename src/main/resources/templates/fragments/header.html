@@ -1,8 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <div th:fragment="header">
         header 영역입니다.
+
+        <ul>
+            <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                <a href="/admin/test">관리자 페이지</a>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a href="/member/login">로그인</a>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a href="/member/new">회원가입</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="/member/logout">로그아웃</a>
+            </li>
+        </ul>
+
     </div>
 
 </html>
