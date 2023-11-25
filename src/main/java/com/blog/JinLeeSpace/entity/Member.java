@@ -59,7 +59,7 @@ public class Member {
         member.setNickName(memberFormDto.getNickName());
         member.setEmail(memberFormDto.getEmail());
         member.setAddress(memberFormDto.getAddress());
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
 
         return member;
     }
