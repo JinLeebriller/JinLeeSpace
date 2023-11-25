@@ -21,23 +21,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.formLogin()
-                .loginPage("/member/login")
-                .defaultSuccessUrl("/")
-                .usernameParameter("id")
-                .failureUrl("/member/login/error")
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                .logoutSuccessUrl("/")
-        ;
-
-        http.authorizeRequests()
+        http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .requestMatchers("/", "/member/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-        ;
+        )
+        .formLogin(login -> login
+                .loginPage("/member/login")
+                .defaultSuccessUrl("/")
+                .usernameParameter("id")
+                .failureUrl("/member/login/error")
+        )
+        .logout(logout -> logout
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logoutSuccessUrl("/")
+        );
 
         return http.build();
     }
