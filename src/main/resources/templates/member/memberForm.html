@@ -8,14 +8,25 @@
     <!-- 사용자 스크립트 추가 -->
     <th:block layout:fragment="script">
 
-<!--        <script th:inline="javascript">-->
-<!--            $(document).ready(function(){-->
-<!--                var errorMessage = [[${errorMessage}]];-->
-<!--                if(errorMessage != null){-->
-<!--                    alert(errorMessage);-->
-<!--                }-->
-<!--            });-->
-<!--        </script>-->
+        <!--
+            $(document).ready() 함수가 실행되면서 서버에서 전달된 오류 메시지를 확인하려고 했는데,
+            이 시점에서 CSRF 토큰이 아직 생성되지 않아 CSRF 토큰이 null로 전달되어 자바스크립트 오류가 발생했다.
+
+            따라서 CSRF 토큰이 존재할 경우에만 오류 메시지를 확인하도록 조치하였다.
+            또한 CSRF 토큰 값이 문자열로 인식될 수 있도록 /*[[...]]*/ 형식으로 감싸주었다.
+        -->
+
+        <script th:inline="javascript">
+            $(document).ready(function(){
+                var csrfToken = /*[[${_csrf.token}]]*/ '';
+                if(csrfToken.trim() !== ''){
+                    var errorMessage = /*[[${errorMessage}]]*/ '';
+                    if(errorMessage !== null && errorMessage.trim() !== ''){
+                        alert(errorMessage);
+                    }
+                }
+            });
+        </script>
 
     </th:block>
 
