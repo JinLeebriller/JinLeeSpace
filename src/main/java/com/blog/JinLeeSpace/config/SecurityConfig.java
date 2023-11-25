@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**", "/favicon.ico").permitAll()
                 .requestMatchers("/", "/member/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -40,6 +40,11 @@ public class SecurityConfig {
         .exceptionHandling(handler -> handler
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
         );
+
+        http.rememberMe( rememberMe -> rememberMe
+                .tokenValiditySeconds(60 * 60 * 24 * 14)
+                .userDetailsService(memberService)
+                .rememberMeParameter("rememberMe"));
 
         return http.build();
     }

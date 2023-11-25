@@ -21,6 +21,9 @@
 
             <p th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></p>
 
+            <input type="checkbox" name="rememberMe">
+            <label th:for="rememberMe">자동 로그인 설정</label>
+
             <button type="submit">로그인</button>
             <button type="button" onclick="location.href='/member/new'">회원가입</button>
 
