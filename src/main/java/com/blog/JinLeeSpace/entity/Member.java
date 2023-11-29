@@ -19,7 +19,7 @@ public class Member extends BaseEntity {
     @Id
     @Column(name = "member_idNumber")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long identificationNumber;
+    private Long idNumber;
 
     // 아이디
     /*
