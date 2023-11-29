@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Table(name = "member")
 @Getter @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity {
 
     // 멤버별 고유번호
     @Id

@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,8 +28,8 @@ public class MemberService implements UserDetailsService {
 
     // 이미 가입된 회원의 경우 IllegalStateException 예외 발생
     private void validateDuplicateMember(Member member) {
-        Member findMember = memberRepository.findById(member.getId());
-        if(findMember != null) {
+        Optional<Member> findMember = memberRepository.findById(member.getId());
+        if(findMember.isPresent()) {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
@@ -41,11 +43,7 @@ public class MemberService implements UserDetailsService {
     */
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Member member = memberRepository.findById(id);
-
-        if(member == null) {
-            throw new UsernameNotFoundException(id);
-        }
+        Member member = memberRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id));
 
         return User.builder()
                 .username(member.getId())

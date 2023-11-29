@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
         );
 
-        http.rememberMe( rememberMe -> rememberMe
+        http.rememberMe(rememberMe -> rememberMe
                 .tokenValiditySeconds(60 * 60 * 24 * 14)
                 .userDetailsService(memberService)
                 .rememberMeParameter("rememberMe"));
