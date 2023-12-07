@@ -21,6 +21,10 @@ public class Post extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_idNumber")
+    private Member member;
+
     // 포스트 제목
     @Column(nullable = false, length = 50)
     private String title;
