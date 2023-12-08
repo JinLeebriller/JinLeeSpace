@@ -56,7 +56,13 @@
             <!-- 본문 작성 -->
             <textarea th:field="*{content}"></textarea>
 
-            <button th:formaction="@{/post/new}" type="submit">저장</button>
+            <div th:if="${#strings.isEmpty(postFormDto.idNumber)}">
+                <button th:formaction="@{/post/new}" type="submit">저장</button>
+            </div>
+
+            <div th:unless="${#strings.isEmpty(postFormDto.idNumber)}">
+                <button th:formaction="@{'/post/' + ${postFormDto.id}}" type="submit">수정</button>
+            </div>
 
         </form>
 
