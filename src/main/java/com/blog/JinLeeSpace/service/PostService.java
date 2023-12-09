@@ -27,11 +27,11 @@ public class PostService {
     private final PostImgRepository postImgRepository;
     private final MemberRepository memberRepository;
 
-    public Long savePost(Principal principal, PostFormDto postFormDto, List<MultipartFile> postImgFileList) throws Exception {
+    public Long savePost(String memberId, PostFormDto postFormDto, List<MultipartFile> postImgFileList) throws Exception {
 
         // 포스트 등록
         Post post = postFormDto.createPost();
-        Member member = memberRepository.findById(principal.getName()).orElseThrow(() -> new UsernameNotFoundException(principal.getName()));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new UsernameNotFoundException(memberId));
         post.setMember(member);
         postRepository.save(post);
 

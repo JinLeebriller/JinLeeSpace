@@ -45,7 +45,7 @@ public class PostController {
 
         // 포스트 저장 로직을 호출
         try {
-            postService.savePost(principal, postFormDto, postImgFileList);
+            postService.savePost(principal.getName(), postFormDto, postImgFileList);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "포스트 등록 중 에러가 발생하였습니다.");
             return "post/postForm";
