@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     // application.properties에 설정한 "uploadPath" 프로퍼티 값을 읽어온다.
-    @Value("${uploadath}")
+    @Value("${uploadPath}")
     String uploadPath;
 
     // 로컬 컴퓨터에 업로드한 파일을 찾을 위치를 설정
