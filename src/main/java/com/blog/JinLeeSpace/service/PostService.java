@@ -74,4 +74,20 @@ public class PostService {
         return postFormDto;
     }
 
+    // 포스트를 수정하는 메서드
+    public Long updatePost(PostFormDto postFormDto, List<MultipartFile> postImgFileList) throws Exception {
+
+        // 포스트 수정
+        Post post = postRepository.findByIdNumber(postFormDto.getIdNumber()).orElseThrow(EntityNotFoundException::new);
+        post.updatePost(postFormDto);
+
+        // 이미지 등록
+        List<Long> postImgIdNumbers = postFormDto.getPostImgIdNumberList();
+        for(int i = 0 ; i < postImgFileList.size() ; i++) {
+            postImgService.updatePostImg(postImgIdNumbers.get(i), postImgFileList.get(i));
+        }
+
+        return post.getIdNumber();
+    }
+
 }

@@ -2,6 +2,7 @@ package com.blog.JinLeeSpace.service;
 
 import com.blog.JinLeeSpace.entity.PostImg;
 import com.blog.JinLeeSpace.repository.PostImgRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,22 @@ public class PostImgService {
         // 포스트 이미지 정보 저장
         postImg.updatePostImg(oriImgName, imgName, imgUrl);
         postImgRepository.save(postImg);
+    }
+
+    // 포스트 이미지 수정
+    public void updatePostImg(Long idNumber, MultipartFile postImgFile) throws Exception {
+        if(!postImgFile.isEmpty()) {
+            PostImg savedPostImg = postImgRepository.findByIdNumber(idNumber).orElseThrow(EntityNotFoundException::new);
+
+            // 기존 이미지 파일 삭제
+            if(!StringUtils.isEmpty(savedPostImg.getImgName())) {
+                fileService.deleteFile(postImgLocation + "/" + savedPostImg.getImgName());
+            }
+
+            String oriImgName = postImgFile.getOriginalFilename();
+            String imgName = fileService.uploadFile(postImgLocation, oriImgName, postImgFile.getBytes());
+            String imgUrl = "images/img" + imgName;
+            savedPostImg.updatePostImg(oriImgName, imgName, imgUrl);
+        }
     }
 }

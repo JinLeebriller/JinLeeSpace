@@ -38,7 +38,7 @@ public class Post extends BaseEntity {
     private int viewCount;
 
     // 포스트 수정 메서드
-    public void modifyPost(PostFormDto postFormDto) {
+    public void updatePost(PostFormDto postFormDto) {
         this.title = postFormDto.getTitle();
         this.content = postFormDto.getContent();
     }

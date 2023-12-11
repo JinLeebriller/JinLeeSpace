@@ -72,4 +72,27 @@ public class PostController {
         return "post/postForm";
     }
 
+    // 포스트 수정 후
+    @PostMapping("/post/{idNumber}")
+    public String postUpdate(@Valid PostFormDto postFormDto, BindingResult bindingResult, @RequestParam("postImgFile") List<MultipartFile> postImgFileList, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            return "post/postForm";
+        }
+
+        if(postImgFileList.get(0).isEmpty() && postFormDto.getIdNumber() == null) {
+            model.addAttribute("errorMessage", "첫 번째 포스트 이미지는 필수 입력 값입니다.");
+            return "post/postForm";
+        }
+
+        try {
+            postService.updatePost(postFormDto, postImgFileList);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "포스트 수정 중 에러가 발생하였습니다.");
+            return "post/postForm";
+        }
+
+        return "redirect:/";
+    }
+
 }
