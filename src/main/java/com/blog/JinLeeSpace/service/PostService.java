@@ -1,12 +1,14 @@
 package com.blog.JinLeeSpace.service;
 
 import com.blog.JinLeeSpace.dto.PostFormDto;
+import com.blog.JinLeeSpace.dto.PostImgDto;
 import com.blog.JinLeeSpace.entity.Member;
 import com.blog.JinLeeSpace.entity.Post;
 import com.blog.JinLeeSpace.entity.PostImg;
 import com.blog.JinLeeSpace.repository.MemberRepository;
 import com.blog.JinLeeSpace.repository.PostImgRepository;
 import com.blog.JinLeeSpace.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 // 포스트를 등록하는 클래스
@@ -48,6 +51,27 @@ public class PostService {
         }
 
         return post.getIdNumber();
+    }
+
+    // 등록된 포스트를 불러오는 메서드
+    @Transactional(readOnly = true)
+    public PostFormDto getPostDtl(Long idNumber) {
+
+        // 해당 포스트의 이미지를 조회
+        List<PostImg> postImgList = postImgRepository.findByPostIdNumberOrderByIdNumberAsc(idNumber);
+
+        // 조회한 PostImg 엔티티를 PostImgDto 객체로 만들어서 리스트에 추가
+        List<PostImgDto> postImgDtoList = new ArrayList<>();
+        for(PostImg postImg : postImgList) {
+            PostImgDto postImgDto = PostImgDto.of(postImg);
+            postImgDtoList.add(postImgDto);
+        }
+
+        // 포스트의 idNumber를 통해 포스트 엔티티를 조회
+        Post post = postRepository.findByIdNumber(idNumber).orElseThrow(EntityNotFoundException::new);
+        PostFormDto postFormDto = PostFormDto.of(post);
+        postFormDto.setPostImgDtoList(postImgDtoList);
+        return postFormDto;
     }
 
 }

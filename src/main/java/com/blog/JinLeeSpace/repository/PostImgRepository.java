@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PostImgRepository extends JpaRepository<PostImg, Long> {
 
-    List<PostImg> findByPostIdNumberOrderByIdNumberAsc(Long postIdNumber);
+    List<PostImg> findByPostIdNumberOrderByIdNumberAsc(Long IdNumber);
 
 }
