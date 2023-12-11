@@ -52,6 +52,11 @@
             <!-- 이미지 삽입 -->
             <p>이미지 업로드</p>
             <input type="file" name="postImgFile">
+            <div th:if = "${not #lists.isEmpty(postFormDto.postImgDtoList)}">
+                <div th:each="postImgDto, status: ${postFormDto.postImgDtoList}">
+                    <input type="hidden" name="postImgIdNumberList" th:value="${postImgDto.idNumber}">
+                </div>
+            </div>
 
             <!-- 본문 작성 -->
             <textarea th:field="*{content}"></textarea>
