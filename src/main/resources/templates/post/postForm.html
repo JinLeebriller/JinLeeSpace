@@ -61,7 +61,7 @@
             </div>
 
             <div th:unless="${#strings.isEmpty(postFormDto.idNumber)}">
-                <button th:formaction="@{'/post/' + ${postFormDto.id}}" type="submit">수정</button>
+                <button th:formaction="@{'/post/' + ${postFormDto.idNumber}}" type="submit">수정</button>
             </div>
 
         </form>
