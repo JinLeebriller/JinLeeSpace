@@ -2,6 +2,7 @@ package com.blog.JinLeeSpace.service;
 
 import com.blog.JinLeeSpace.dto.PostFormDto;
 import com.blog.JinLeeSpace.dto.PostImgDto;
+import com.blog.JinLeeSpace.dto.PostSearchDto;
 import com.blog.JinLeeSpace.entity.Member;
 import com.blog.JinLeeSpace.entity.Post;
 import com.blog.JinLeeSpace.entity.PostImg;
@@ -10,6 +11,8 @@ import com.blog.JinLeeSpace.repository.PostImgRepository;
 import com.blog.JinLeeSpace.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,10 +42,10 @@ public class PostService {
         postRepository.save(post);
 
         // 이미지 등록
-        for(int i = 0 ; i < postImgFileList.size() ; i++) {
+        for (int i = 0; i < postImgFileList.size(); i++) {
             PostImg postImg = new PostImg();
             postImg.setPost(post);
-            if(i == 0) {
+            if (i == 0) {
                 postImg.setRepimgYn("Y");
             } else {
                 postImg.setRepimgYn("N");
@@ -62,7 +65,7 @@ public class PostService {
 
         // 조회한 PostImg 엔티티를 PostImgDto 객체로 만들어서 리스트에 추가
         List<PostImgDto> postImgDtoList = new ArrayList<>();
-        for(PostImg postImg : postImgList) {
+        for (PostImg postImg : postImgList) {
             PostImgDto postImgDto = PostImgDto.of(postImg);
             postImgDtoList.add(postImgDto);
         }
@@ -83,11 +86,16 @@ public class PostService {
 
         // 이미지 등록
         List<Long> postImgIdNumbers = postFormDto.getPostImgIdNumberList();
-        for(int i = 0 ; i < postImgFileList.size() ; i++) {
+        for (int i = 0; i < postImgFileList.size(); i++) {
             postImgService.updatePostImg(postImgIdNumbers.get(i), postImgFileList.get(i));
         }
 
         return post.getIdNumber();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Post> getPostPage(PostSearchDto postSearchDto, Pageable pageable) {
+        return postRepository.getPostPage(postSearchDto, pageable);
     }
 
 }
