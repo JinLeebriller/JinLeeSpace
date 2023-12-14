@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 
-</body>
+    <!-- 사용자 CSS 추가 -->
+    <th:block layout:fragment="css"></th:block>
+    <!-- 사용자 스크립트 추가 -->
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+
+            $(document).ready(function(){
+                $("#searchBtn").on("click, function(e) {
+                    e.preventDefault();
+                    page(0);
+                });
+            });
+
+            function page(page) {
+                var searchDateType = $("#searchDateType").val();
+                var searchBy = $("#searchBy").val();
+                var searchQuery = $("#searchQuery").val();
+
+                location.href="/post/postList/" + page + "?searchDateType=" + searchDateType
+                                                       + "&searchBy=" + searchBy
+                                                       + "&searchQuery=" + searchQuery;
+            }
+
+        </script>
+    </th:block>
+
+    <div layout:fragment="content">
+
+        <form th:action="@{'/post/list/' + ${postList.number}}" role="form" method="get" th:object="${postList}">
+
+            <!-- 조회한 포스트 데이터 -->
+            <table>
+                <thead>
+                    <tr>
+                        <td>번호</td>
+                        <td>제목</td>
+                        <td>등록자</td>
+                        <td>등록일</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post, status: ${postList.getContent()}">
+                        <td th:text="${post.idNumber}"></td>
+                        <td>
+                            <a th:href="'/post/post/' + ${post.idNumber}"></a>
+                        </td>
+                        <td th:text="${post.createdBy}"></td>
+                        <td th:text="${post.regTime}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 하단의 페이지 번호를 보여주는 영역 -->
+            <div th:with="start=${(postList.number/maxPage)*maxPage + 1}, end=(${postList.totalPages == 0} ? 1 : (start + (maxPage - 1) < postList.totalPages ? start + (maxPage - 1) : postList.totalPages)})">
+                <ul>
+                    <li th:classappend="${postList.first}?'disabled'">
+                        <a th:onclick="javascript:page(' + ${postList.number - 1} + ')" aria-label="Previous">
+                            <span aria-hidden="true">Previous</span>
+                        </a>
+                    </li>
+
+                    <li th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${postList.number eq page - 1}? 'active' : ''">
+                        <a th:onclick="javascript:page(' + ${postList.number + 1} + ')" th:inline="text">[[${page}]]</a>
+                    </li>
+
+                    <li th:classappend="${postList.last}?'disabled'">
+                        <a th:onclick="'javascript:page(' + ${postList.number + 1} + ')'" aria-label="Next">
+                            <span aria-hidden="true">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </form>
+
+    </div>
+
 </html>
