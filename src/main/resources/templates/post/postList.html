@@ -21,7 +21,7 @@
                 var searchBy = $("#searchBy").val();
                 var searchQuery = $("#searchQuery").val();
 
-                location.href="/post/postList/" + page + "?searchDateType=" + searchDateType
+                location.href="/post/list/" + page + "?searchDateType=" + searchDateType
                                                        + "&searchBy=" + searchBy
                                                        + "&searchQuery=" + searchQuery;
             }
@@ -60,17 +60,17 @@
             <!-- 하단의 페이지 번호를 보여주는 영역 -->
             <div th:with="start=${(postList.number/maxPage)*maxPage + 1}, end=(${(postList.totalPages == 0) ? 1 : (start + (maxPage - 1) < postList.totalPages ? start + (maxPage - 1) : postList.totalPages)})">
                 <ul class="pagination">
-                    <li class="page" th:classappend="${postList.first}?'disabled'">
+                    <li class="page" th:style="${postList.first} ? 'display:none' : ''">
                         <a th:onclick="'javascript:page(' + ${postList.number - 1} + ')'" aria-label="Previous">
                             <span aria-hidden="true">Previous</span>
                         </a>
                     </li>
 
-                    <li class="page" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${postList.number eq page - 1}? 'active' : ''">
+                    <li class="page" th:each="page: ${#numbers.sequence(start, end)}">
                         <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text">[[${page}]]</a>
                     </li>
 
-                    <li class="page" th:classappend="${postList.last}?'disabled'">
+                    <li class="page" th:style="${postList.last} ? 'display:none' : ''">
                         <a th:onclick="'javascript:page(' + ${postList.number + 1} + ')'" aria-label="Next">
                             <span aria-hidden="true">Next</span>
                         </a>
