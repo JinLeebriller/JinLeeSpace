@@ -40,6 +40,7 @@
                         <td>번호</td>
                         <td>제목</td>
                         <td>등록자</td>
+                        <td>조회수</td>
                         <td>등록일</td>
                     </tr>
                 </thead>
@@ -47,9 +48,10 @@
                     <tr th:each="post, status: ${postList.getContent()}">
                         <td th:text="${post.idNumber}"></td>
                         <td>
-                            <a th:href="'/post/post/' + ${post.idNumber}"></a>
+                            <a th:href="'/post/postView/' + ${post.idNumber}" th:text="${post.title}"></a>
                         </td>
                         <td th:text="${post.createdBy}"></td>
+                        <td th:text="${post.viewCount}"></td>
                         <td th:text="${post.regTime}"></td>
                     </tr>
                 </tbody>
@@ -59,13 +61,13 @@
             <div th:with="start=${(postList.number/maxPage)*maxPage + 1}, end=(${(postList.totalPages == 0) ? 1 : (start + (maxPage - 1) < postList.totalPages ? start + (maxPage - 1) : postList.totalPages)})">
                 <ul>
                     <li th:classappend="${postList.first}?'disabled'">
-                        <a th:onclick="javascript:page(' + ${postList.number - 1} + ')" aria-label="Previous">
+                        <a th:onclick="'javascript:page(' + ${postList.number - 1} + ')'" aria-label="Previous">
                             <span aria-hidden="true">Previous</span>
                         </a>
                     </li>
 
                     <li th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${postList.number eq page - 1}? 'active' : ''">
-                        <a th:onclick="javascript:page(' + ${postList.number + 1} + ')" th:inline="text">[[${page}]]</a>
+                        <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text">[[${page}]]</a>
                     </li>
 
                     <li th:classappend="${postList.last}?'disabled'">
