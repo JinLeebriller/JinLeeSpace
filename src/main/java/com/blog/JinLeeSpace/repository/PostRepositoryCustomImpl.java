@@ -64,7 +64,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     @Override
     public Page<Post> getPostPage(PostSearchDto postSearchDto, Pageable pageable) {
         List<Post> content = queryFactory
-                .select(QPost.post)
+                .selectFrom(QPost.post)
                 .where(regDateAfter(postSearchDto.getSearchDateType()),
                         searchByLike(postSearchDto.getSearchBy(), postSearchDto.getSearchQuery()))
                 .orderBy(QPost.post.idNumber.desc())

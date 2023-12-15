@@ -10,7 +10,7 @@
         <script th:inline="javascript">
 
             $(document).ready(function(){
-                $("#searchBtn").on("click, function(e) {
+                $("#searchBtn").on("click", function(e) {
                     e.preventDefault();
                     page(0);
                 });
@@ -56,7 +56,7 @@
             </table>
 
             <!-- 하단의 페이지 번호를 보여주는 영역 -->
-            <div th:with="start=${(postList.number/maxPage)*maxPage + 1}, end=(${postList.totalPages == 0} ? 1 : (start + (maxPage - 1) < postList.totalPages ? start + (maxPage - 1) : postList.totalPages)})">
+            <div th:with="start=${(postList.number/maxPage)*maxPage + 1}, end=(${(postList.totalPages == 0) ? 1 : (start + (maxPage - 1) < postList.totalPages ? start + (maxPage - 1) : postList.totalPages)})">
                 <ul>
                     <li th:classappend="${postList.first}?'disabled'">
                         <a th:onclick="javascript:page(' + ${postList.number - 1} + ')" aria-label="Previous">
