@@ -18,6 +18,9 @@
             <li sec:authorize="isAuthenticated()">
                 <a href="/post/new">포스트 작성</a>
             </li>
+            <li sec:authorize="permitAll()">
+                <a href="/post/list">포스트 목록</a>
+            </li>
             <li sec:authorize="isAuthenticated()">
                 <a href="/member/logout">로그아웃</a>
             </li>
