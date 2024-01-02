@@ -1,5 +1,6 @@
 package com.blog.JinLeeSpace.repository;
 
+import com.blog.JinLeeSpace.dto.MainPostDto;
 import com.blog.JinLeeSpace.dto.PostSearchDto;
 import com.blog.JinLeeSpace.entity.Post;
 import com.blog.JinLeeSpace.entity.QPost;
@@ -23,6 +24,10 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     public PostRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
+
+    /*
+        포스트 목록 페이지(postList.html) 포스트 목록 검색 조건
+    */
 
     // searchDateType의 값에 따라서 dateTime의 값을 이전 시간의 값으로 세팅 후 해당 시간 이후로 등록된 상품만 조회
     // 예를 들어, searchDateType 값이 "1m"인 경우 dateTime의 시간을 한 달 전으로 세팅 후 최근 한 달 동안 등록된 상품을 조회하도록 조건값을 반환
@@ -71,5 +76,19 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    /*
+        메인 페이지 포스트 목록 검색 조건
+    */
+
+    // 검색어가 null이 아니면 포스트명에 검색어가 포함되는 포스트를 조회하는 조건 반환
+    private BooleanExpression postTilteLike(String searchQuery) {
+        return StringUtils.isEmpty(searchQuery) ? null : QPost.post.title.like("%" + searchQuery + "%");
+    }
+
+    @Override
+    public Page<MainPostDto> getMainPostPage(PostSearchDto postSearchDto, Pageable pageable) {
+        return null;
     }
 }
