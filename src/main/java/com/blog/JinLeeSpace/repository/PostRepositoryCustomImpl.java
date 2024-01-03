@@ -2,8 +2,10 @@ package com.blog.JinLeeSpace.repository;
 
 import com.blog.JinLeeSpace.dto.MainPostDto;
 import com.blog.JinLeeSpace.dto.PostSearchDto;
+import com.blog.JinLeeSpace.dto.QMainPostDto;
 import com.blog.JinLeeSpace.entity.Post;
 import com.blog.JinLeeSpace.entity.QPost;
+import com.blog.JinLeeSpace.entity.QPostImg;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
@@ -83,12 +86,37 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     */
 
     // 검색어가 null이 아니면 포스트명에 검색어가 포함되는 포스트를 조회하는 조건 반환
-    private BooleanExpression postTilteLike(String searchQuery) {
+    private BooleanExpression postTitleLike(String searchQuery) {
         return StringUtils.isEmpty(searchQuery) ? null : QPost.post.title.like("%" + searchQuery + "%");
     }
 
     @Override
     public Page<MainPostDto> getMainPostPage(PostSearchDto postSearchDto, Pageable pageable) {
-        return null;
+        QPost post = QPost.post;
+        QPostImg postImg = QPostImg.postImg;
+
+        QueryResults<MainPostDto> results = queryFactory
+                .select(
+                        // QMainPostDto의 생성자에 반환할 값들을 넣어준다.
+                        // @QueryProjection을 사용하면 DTO로 바로 조회가 가능하다.
+                        new QMainPostDto(
+                                post.idNumber,
+                                post.title,
+                                post.content,
+                                post.viewCount,
+                                postImg.imgUrl)
+                )
+                .from(postImg)
+                // postImg와 post를 내부 조인
+                .join(postImg.post, post)
+                // 포스트 이미지의 경우 대표 포스트 이미지만 불러온다.
+                .where(postImg.repimgYn.eq("Y"))
+                .where(postTitleLike(postSearchDto.getSearchQuery()))
+                .orderBy(post.idNumber.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 }

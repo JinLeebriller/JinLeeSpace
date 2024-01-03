@@ -1,5 +1,6 @@
 package com.blog.JinLeeSpace.service;
 
+import com.blog.JinLeeSpace.dto.MainPostDto;
 import com.blog.JinLeeSpace.dto.PostFormDto;
 import com.blog.JinLeeSpace.dto.PostImgDto;
 import com.blog.JinLeeSpace.dto.PostSearchDto;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,9 +93,16 @@ public class PostService {
         return post.getIdNumber();
     }
 
+    // 포스트 목록 페이지(postList.html)에 보여줄 포스트 데이터를 조회하는 메서드
     @Transactional(readOnly = true)
     public Page<Post> getPostPage(PostSearchDto postSearchDto, Pageable pageable) {
         return postRepository.getPostPage(postSearchDto, pageable);
+    }
+
+    // 메인 페이지에 보여줄 포스트 데이터를 조회하는 메서드
+    @Transactional(readOnly = true)
+    public Page<MainPostDto> getMainPostPage(PostSearchDto postSearchDto, Pageable pageable) {
+        return postRepository.getMainPostPage(postSearchDto, pageable);
     }
 
 }
