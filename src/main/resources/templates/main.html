@@ -6,10 +6,55 @@
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css"></th:block>
 <!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+    function page(page) {
+    var searchDateType = $("#searchDateType").val();
+    var searchBy = $("#searchBy").val();
+    var searchQuery = $("#searchQuery").val();
+
+    location.href="/post/list/" + page + "?searchDateType=" + searchDateType
+                                           + "&searchBy=" + searchBy
+                                           + "&searchQuery=" + searchQuery;
+    }
+
+    </script>
+</th:block>
 
 <div layout:fragment="content">
-    메인 페이지입니다.
+
+    <th:block th:each="post, status: ${postList.getContent()}">
+        <a th:href="'/post/' + ${post.idNumber}">
+            <!-- 포스트 대표사진 -->
+            <img th:src="${post.imgUrl}" th:alt="post.title" height="400">
+            <!-- 포스트 설명 -->
+            <h4>[[${post.title}]]</h4>
+            <p>[[${post.content}]]</p>
+        </a>
+    </th:block>
+
+    <!-- 하단의 페이지 번호를 보여주는 영역 -->
+    <div th:with="start=${(postList.number/maxPage)*maxPage + 1}, end=(${(postList.totalPages == 0) ? 1 : (start + (maxPage - 1) < postList.totalPages ? start + (maxPage - 1) : postList.totalPages)})">
+        <ul class="pagination">
+            <li class="page" th:style="${postList.first} ? 'display:none' : ''">
+                <a th:onclick="'javascript:page(' + ${postList.number - 1} + ')'" aria-label="Previous">
+                    <span aria-hidden="true">Previous</span>
+                </a>
+            </li>
+
+            <li class="page" th:each="page: ${#numbers.sequence(start, end)}">
+                <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text">[[${page}]]</a>
+            </li>
+
+            <li class="page" th:style="${postList.last} ? 'display:none' : ''">
+                <a th:onclick="'javascript:page(' + ${postList.number + 1} + ')'" aria-label="Next">
+                    <span aria-hidden="true">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
 </div>
 
 </html>
