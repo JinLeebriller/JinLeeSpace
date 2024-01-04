@@ -67,7 +67,7 @@ public class PostController {
     public String postDtl(@PathVariable("idNumber") Long idNumber, Model model) {
 
         try {
-            PostFormDto postFormDto = postService.getPostDtl(idNumber);
+            PostFormDto postFormDto = postService.getPostDetail(idNumber);
             model.addAttribute("postFormDto", postFormDto);
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", "존재하지 않는 포스트입니다.");
@@ -117,6 +117,14 @@ public class PostController {
         model.addAttribute("maxPage", 5);
 
         return "post/postList";
+    }
+
+    // 포스트 상세 페이지로 이동
+    @GetMapping("/post/{idNumber}")
+    public String postDetail(Model model, @PathVariable("idNumber") Long postIdNumber) {
+        PostFormDto postFormDto = postService.getPostDetail(postIdNumber);
+        model.addAttribute("post", postFormDto);
+        return "post/postDetail";
     }
 
 }

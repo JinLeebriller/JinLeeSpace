@@ -58,7 +58,7 @@ public class PostService {
 
     // 등록된 포스트를 불러오는 메서드
     @Transactional(readOnly = true)
-    public PostFormDto getPostDtl(Long idNumber) {
+    public PostFormDto getPostDetail(Long idNumber) {
 
         // 해당 포스트의 이미지를 조회
         List<PostImg> postImgList = postImgRepository.findByPostIdNumberOrderByIdNumberAsc(idNumber);

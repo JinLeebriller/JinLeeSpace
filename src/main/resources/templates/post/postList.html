@@ -48,7 +48,7 @@
                     <tr th:each="post, status: ${postList.getContent()}">
                         <td th:text="${post.idNumber}"></td>
                         <td>
-                            <a th:href="'/post/postView/' + ${post.idNumber}" th:text="${post.title}"></a>
+                            <a th:href="'/post/' + ${post.idNumber}" th:text="${post.title}"></a>
                         </td>
                         <td th:text="${post.createdBy}"></td>
                         <td th:text="${post.viewCount}"></td>
