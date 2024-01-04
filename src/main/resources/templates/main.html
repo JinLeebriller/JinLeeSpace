@@ -10,19 +10,23 @@
     <script th:inline="javascript">
 
     function page(page) {
-    var searchDateType = $("#searchDateType").val();
-    var searchBy = $("#searchBy").val();
     var searchQuery = $("#searchQuery").val();
 
-    location.href="/post/list/" + page + "?searchDateType=" + searchDateType
-                                           + "&searchBy=" + searchBy
-                                           + "&searchQuery=" + searchQuery;
+    location.href="/" + page;
     }
 
     </script>
 </th:block>
 
 <div layout:fragment="content">
+
+    <form th:action="@{'/' + ${postList.number}}" role="form" method="get" th:object="${postList}">
+
+    <!-- 상단의 포스트 상세 검색창 -->
+    <div th:object="${postSearchDto}">
+        <input th:field="*{searchQuery}" type="text" placeholder="검색어를 입력해주세요.">
+        <button type="submit">검색</button>
+    </div>
 
     <th:block th:each="post, status: ${postList.getContent()}">
         <a th:href="'/post/' + ${post.idNumber}">
@@ -54,6 +58,8 @@
             </li>
         </ul>
     </div>
+
+    </form>
 
 </div>
 

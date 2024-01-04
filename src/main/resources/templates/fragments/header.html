@@ -6,6 +6,9 @@
         header 영역입니다.
 
         <ul>
+            <li sec:authorize="permitAll()">
+                <a href="/">홈</a>
+            </li>
             <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
                 <a href="/admin/admin/test">관리자 페이지</a>
             </li>

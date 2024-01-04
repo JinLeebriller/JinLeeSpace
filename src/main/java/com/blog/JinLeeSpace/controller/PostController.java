@@ -63,7 +63,7 @@ public class PostController {
     }
 
     // 포스트 수정 페이지로 이동
-    @GetMapping("/post/{idNumber}")
+    @GetMapping("/post/modify/{idNumber}")
     public String postDtl(@PathVariable("idNumber") Long idNumber, Model model) {
 
         try {
@@ -79,7 +79,7 @@ public class PostController {
     }
 
     // 포스트 수정 후
-    @PostMapping("/post/{idNumber}")
+    @PostMapping("/post/modify/{idNumber}")
     public String postUpdate(@Valid PostFormDto postFormDto, BindingResult bindingResult, @RequestParam("postImgFile") List<MultipartFile> postImgFileList, Model model) {
 
         if (bindingResult.hasErrors()) {

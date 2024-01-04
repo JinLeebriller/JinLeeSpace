@@ -20,7 +20,7 @@ public class MainController {
 
     private final PostService postService;
 
-    @GetMapping("/")
+    @GetMapping({"/", "/{page}"})
     public String main(PostSearchDto postSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
         Page<MainPostDto> postList = postService.getMainPostPage(postSearchDto, pageable);
