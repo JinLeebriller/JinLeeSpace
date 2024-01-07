@@ -15,7 +15,24 @@
 
     <div layout:fragment="content">
 
+        <input type="hidden" th:value="${post.idNumber}">
 
+        <!-- 포스트 제목 -->
+        <h4 th:text="${post.title}"></h4>
+
+        <!-- 조회수 -->
+        조회수 : <p th:text="${post.viewCount}"></p>
+
+        <!-- 포스트 대표 이미지 -->
+        <img th:src="${post.postImgDtoList[0].imgUrl}" th:alt="${post.title}" width="800">
+
+        <!-- 포스트 내용 -->
+        <p th:text="${post.content}"></p>
+
+        <!-- 등록된 포스트 이미지를 반복 구문을 통해 출력 -->
+        <div th:each="postImg : ${post.postImgDtoList}">
+            <img th:if="${not #strings.isEmpty(postImg.imgUrl)}" th:src="${postImg.imgUrl}" width="800">
+        </div>
 
     </div>
 

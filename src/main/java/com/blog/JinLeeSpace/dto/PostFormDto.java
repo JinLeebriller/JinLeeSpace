@@ -23,6 +23,8 @@ public class PostFormDto {
     @NotBlank(message = "내용은 필수 입력 값입니다.")
     private String content;
 
+    private int viewCount;
+
     // 포스트 저장 후 수정할 때 포스트 이미지 정보를 저장하는 리스트
     private List<PostImgDto> postImgDtoList = new ArrayList<>();
 
